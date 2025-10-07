@@ -273,21 +273,21 @@
             <version>1.5.4</version>
         </dependency>
         <!-- JDK 11 only JavaFX dependencies -->
-        <!--dependency>
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>11</version>
+            <version>25</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
-            <version>11</version>
+            <version>25</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-web</artifactId>
-            <version>11</version>
-        </dependency-->
+            <version>25</version>
+        </dependency>
     </dependencies>
     <pluginRepositories>
         <pluginRepository>
