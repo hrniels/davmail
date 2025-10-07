@@ -385,6 +385,7 @@
         </copy>
         <copy file="src/icon/davmail.png" todir="dist"/>
         <copy file="src/bin/davmail" todir="dist"/>
+        <chmod file="dist/davmail" perm="+x"/>
 
         <!-- use WinRun4J wrappers -->
         <copy file="src/winrun4j/davmail64.exe" todir="dist"/>
