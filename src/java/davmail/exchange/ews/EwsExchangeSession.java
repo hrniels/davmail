@@ -1539,6 +1539,10 @@ public class EwsExchangeSession extends ExchangeSession {
         protected void handleModifiedOccurrences(ItemId currentItemId, VCalendar vCalendar, SendMeetingInvitationsOrCancellations sendMeetingInvitationsOrCancellations) throws DavMailException {
             for (VObject modifiedOccurrence : vCalendar.getModifiedOccurrences()) {
                 VProperty originalDateProperty = modifiedOccurrence.getProperty("RECURRENCE-ID");
+                if (originalDateProperty == null) {
+                    LOGGER.warn("Skip modified occurrence without RECURRENCE-ID in " + getHref());
+                    continue;
+                }
                 String convertedValue;
                 try {
                     convertedValue = vCalendar.convertCalendarDateToExchangeZulu(originalDateProperty.getValue(), originalDateProperty.getParamValue("TZID"));
