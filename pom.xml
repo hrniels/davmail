@@ -274,6 +274,8 @@
             <groupId>xyz.cofe</groupId>
             <artifactId>winrun4j</artifactId>
             <version>0.4.5</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/winrun4j-0.4.5.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jettison</groupId>
