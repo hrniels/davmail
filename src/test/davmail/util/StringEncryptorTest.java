@@ -29,6 +29,7 @@ public class StringEncryptorTest extends TestCase {
         String value = "MyVeryLongToken";
         StringEncryptor encryptor = new StringEncryptor(password);
         String encrypted = encryptor.encryptString(value);
+        assertEquals("{AES}kxTpeRnQIE4GjQk66O+Nxw==", encrypted);
 
         encryptor = new StringEncryptor(password);
         String decrypted = encryptor.decryptString(encrypted);

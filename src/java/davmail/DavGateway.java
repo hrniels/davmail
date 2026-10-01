@@ -30,11 +30,15 @@ import davmail.ldap.LdapServer;
 import davmail.pop.PopServer;
 import davmail.smtp.SmtpServer;
 import davmail.ui.tray.DavGatewayTray;
+import davmail.util.StringEncryptor;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -63,6 +67,7 @@ public final class DavGateway {
         boolean server = false;
         boolean token = false;
         boolean kerberos = false;
+        boolean encryptToken = false;
 
         // check environment for davmail settings path in Docker
         String configFilePath = Settings.getConfigFilePath();
@@ -84,12 +89,20 @@ public final class DavGateway {
                     case "-kerberos":
                         kerberos = true;
                         break;
+                    case "-encrypt-token":
+                        encryptToken = true;
+                        break;
                     default:
                         LOGGER.warn("Unknown option: " + arg);
                 }
             } else {
                 configFilePath = arg;
             }
+        }
+
+        if (encryptToken) {
+            encryptTokenFromInput();
+            return;
         }
 
         Settings.setConfigFilePath(configFilePath);
@@ -172,6 +185,22 @@ public final class DavGateway {
                 }
 
             }
+        }
+    }
+
+    private static void encryptTokenFromInput() {
+        try {
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(System.in, StandardCharsets.UTF_8));
+            String password = reader.readLine();
+            String refreshToken = reader.readLine();
+            if (password == null || refreshToken == null) {
+                throw new IOException("Expected password and refresh token on standard input");
+            }
+            System.out.println(new StringEncryptor(password).encryptString(refreshToken));
+        } catch (IOException e) {
+            System.err.println("Unable to encrypt refresh token: " + e.getMessage());
+            System.exit(1);
         }
     }
 
